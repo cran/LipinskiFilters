@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="George Oche Ambrose" />
+
+
+<title>Lipinski Evaluation of Drug Molecules</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Lipinski Evaluation of Drug Molecules</h1>
+<h4 class="author">George Oche Ambrose</h4>
+<h4 class="date">3/9/2024</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LipinskiFilters)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: cowplot</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: rcdk</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: rcdklibs</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;rcdklibs&#39; was built under R version 4.1.3</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: rJava</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: ggplot2</span></span></code></pre></div>
+<p>Set working directory containing co-catenated compounds in SDF format</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>file<span class="ot">&lt;-</span><span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;test.sdf&quot;</span>, <span class="at">package =</span> <span class="st">&quot;LipinskiFilters&quot;</span>)</span></code></pre></div>
+<p>Read sdf molecules</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mols<span class="ot">&lt;-</span><span class="fu">load.molecules</span>(file)</span></code></pre></div>
+<p>Computing Molecular Properties You can compute molecular properties using the compute_properties function. Here’s an example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>properties <span class="ot">&lt;-</span> <span class="fu">compute_properties</span>(mols)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(properties)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           MW nHBDon nHBAcc TopoPSA  ALogP</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   356.4180      2      3   54.38 5.8914</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   451.5605      2      3   70.50 8.1237</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   358.3885      1      3   85.22 3.9521</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   472.4570      4      8  159.72 5.6735</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   310.3720      1      3   75.99 3.7630</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   524.5732      4      4  127.86 6.3384</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   406.4993      1      4   90.90 4.8441</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8   637.7222      0      5  107.66 7.0274</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9   554.5051      0      3   55.84 6.4874</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  411.6242      1      4   35.58 4.2339</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  390.4999      1      3   79.46 4.1867</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  476.0349      0      3   62.90 7.2190</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  400.9424      1      3   45.48 3.8604</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14  384.4878      1      3   35.94 4.0949</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15  393.4003      1      3   49.77 4.5734</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  354.4618      1      3   26.71 4.1113</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  571.6646      0      4   54.45 6.8874</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  388.5062      2      4   61.02 4.4830</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  445.5213      2      4   44.37 4.7031</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  218.2522      0      4   41.90 0.9043</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21  357.7981      1      7   78.66 2.1145</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22  414.4816      0      5  107.35 4.2277</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23  400.4549      0      5  107.35 3.7415</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  303.3810      2      5   99.33 2.8064</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  362.4290      3      7   82.18 3.7992</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 26  362.4326      1      2   15.27 4.3255</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 27  418.5753      0      3   33.53 4.7073</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 28  413.5125      2      3   61.27 4.8044</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 29  479.9994      2      4   62.83 4.5669</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 30  438.8961      1      4   50.80 3.6605</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 31  586.7410      1      5  118.62 5.9067</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32  425.9519      1      5   48.83 4.6466</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 33  463.9572      0      4  109.53 4.4949</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 34  465.5855      1      4   63.27 4.6322</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35  462.4235      1      4   44.81 3.1807</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 36  434.5526      1      4   86.88 4.5343</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 37  462.6058      1      4   86.88 4.8900</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 38  448.5792      1      4   86.88 4.5412</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 39  409.5032      1      4  103.68 3.6894</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 40  468.9976      1      4   86.88 5.1987</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 41  391.4820      2      3   48.13 3.9869</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 42  484.5872      1      4   67.87 5.2310</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 43  413.5157      2      5   64.26 3.7656</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 44  398.5011      2      4   61.02 4.6285</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 45  495.0604      2      6   67.50 4.7107</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 46  497.7411      1      6   79.95 4.4994</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 47  458.6204      1      4   78.40 6.0283</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 48  444.5938      1      4   78.40 5.5421</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 49  397.5356      1      5   80.89 3.5364</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50  493.5983      1      5   90.87 4.6224</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 51  453.5748      1      4   63.27 4.0869</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 52  367.3992      2      6   87.74 2.8245</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 53  456.9675      1      5   58.12 4.3794</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 54  456.9675      1      5   58.12 4.3794</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 55  460.5275      2      2   75.82 6.6530</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 56  459.6084      1      5   81.64 4.6594</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 57  423.4221      1      5  115.94 3.7888</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 58  487.0161      1      6   83.15 3.6188</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 59  420.4806      1      5  121.98 3.4845</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 60  445.5113      1      6   82.71 3.0586</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 61  340.7793      0      3   33.20 4.6625</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 62  367.3992      1      2   86.48 4.0561</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 63  383.4815      1      4   59.00 4.2014</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 64  480.5780      0      5   84.53 5.2072</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 65  395.5197      0      4   83.56 4.6735</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 66  376.4243      1      2   47.17 4.9369</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 67  458.6188      1      4   96.86 4.5785</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 68  450.5735      1      4   77.88 5.4409</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 69  426.5789      1      3  133.00 5.8538</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 70  420.5501      1      3  104.76 5.9004</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 71  425.9519      1      5   48.83 4.7928</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 72  354.8059      2      3   41.13 5.5209</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 73  363.4536      1      4   54.46 4.6697</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 74  405.4904      1      4   63.69 4.8729</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 75  396.9106      1      3   41.57 4.2710</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 76  434.5316      1      5   66.93 4.2618</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 77  341.7193      1      4   55.11 4.4876</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 78  405.4904      0      4   54.90 3.8560</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 79  339.3460      1      2   86.48 3.3585</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 80  389.7904      1      2   95.71 3.5203</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 81  359.7643      1      2   86.48 3.5367</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 82  416.5167      1      5  121.98 3.5627</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 83  384.4937      1      5   74.86 3.8988</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 84  397.4925      1      3   90.68 4.3726</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 85  431.5487      1      3   87.66 7.1551</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 86  510.4217      1      2   38.33 6.6888</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 87  326.4419      0      3   99.56 4.6354</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 88  249.7397      2      3   36.95 2.1546</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 89  292.3325      0      3   41.90 3.7709</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 90  293.3173      0      2   47.89 3.9411</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 91  283.7096      0      2   38.66 4.2731</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 92  273.3276      1      3   49.77 3.0997</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 93  314.4194      1      2   46.53 6.0850</span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 94  267.3295      1      4   55.11 3.2326</span></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95  368.6529      2      3   49.33 4.3242</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 96  468.3386      0      5   74.30 3.1425</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 97  328.1602      0      2   38.66 4.3571</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 98  420.5034      2      3   58.29 6.8663</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 99  315.6754      2      3   49.33 3.9540</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 100 403.9084      1      5  125.49 4.1159</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 101 327.6927      1      4   55.11 4.0014</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 102 494.5455      2      8  110.98 2.0218</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 103 413.5765      1      2   57.34 6.2161</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 104 559.6258      1      5   53.40 6.4241</span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 105 286.3280      0      2   34.89 4.2707</span></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 106 294.4395      3      6   74.76 4.1261</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 107 592.6492      1      4   67.87 6.9870</span></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 108 274.3156      1      2   64.36 3.0657</span></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 109 411.9494      1      3   72.22 5.7612</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 110 301.4050      1      2   67.54 3.8328</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 111 346.4208      2      4   86.44 3.8400</span></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 112 465.6113      0      2   65.24 7.6743</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 113 377.8626      1      2   56.79 4.3119</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 114 347.8365      1      2   47.56 4.3283</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 115 314.4658      2      2   37.19 4.2308</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 116 353.3726      2      6   87.74 1.6457</span></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 117 385.8657      1      3   83.64 5.0629</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 118 500.5677      1      6  113.73 5.0774</span></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 119 460.5468      0      5   86.64 6.0652</span></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 120 546.5889      1      6   75.71 5.7672</span></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 121 338.2720      2      2   32.26 4.8755</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 122 479.5309      2      7   98.09 2.7260</span></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 123 310.4340      2      2   37.19 4.2018</span></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 124 459.9218      0      3   57.53 6.8199</span></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 125 309.3167      0      2   57.12 3.5759</span></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 126 292.5033      1      2   15.27 3.8729</span></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 127 367.5252      2      3   41.49 4.7391</span></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 128 281.2700      2      3   96.21 3.2356</span></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 129 282.5511      1      2   38.33 3.0808</span></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 130 391.8892      2      2   59.95 4.4488</span></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 131 343.3794      2      3   67.01 4.0389</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 132 621.7718      0      7   94.76 8.0416</span></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 133 370.4860      2      4   61.80 3.9713</span></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 134 659.6837      0      4   91.37 6.4236</span></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 135 468.0990      0      3   53.26 8.6561</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 136 422.3131      1      2   56.79 4.3959</span></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 137 357.4043      1      5   75.02 1.7787</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 138 387.4767      1      2   31.92 5.8080</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 139 286.7534      0      1   26.30 4.2597</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 140 377.8626      2      2   59.95 4.1000</span></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 141 364.4384      1      4   60.45 5.0167</span></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 142 657.7540      0      5   80.75 7.0971</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 143 338.2720      2      2   32.26 4.9542</span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 144 347.8365      2      2   50.72 4.1164</span></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 145 359.4013      2      6  115.98 1.5991</span></span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 146 494.6477      1      5   96.11 4.7480</span></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 147 386.4920      0      6   80.29 3.4616</span></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 148 436.5684      1      4   90.79 5.2410</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 149 335.4435      1      3   46.92 4.1187</span></span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 150 410.4207      2      8  115.22 1.0092</span></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 151 334.3693      1      2   73.91 3.5003</span></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 152 322.4447      2      2   37.19 4.4796</span></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 153 574.2378      2      2   37.19 5.6360</span></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 154 631.7167      0      4   72.91 6.8546</span></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 155 496.6825      2      4   76.66 4.9598</span></span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 156 349.8524      2      2   50.72 3.7984</span></span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 157 261.7471      2      2   32.26 3.7257</span></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 158 337.4179      2      2   40.71 5.3601</span></span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 159 308.4181      2      2   37.19 4.0234</span></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 160 309.8126      0      3   57.78 3.5043</span></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 161 419.4755      2      4   67.27 5.7020</span></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 162 367.2702      2      3   46.42 3.8192</span></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 163 282.1639      1      2   46.53 2.6255</span></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 164 312.1899      1      2   55.76 2.6091</span></span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 165 394.4213      1      2   92.37 3.4675</span></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 166 487.7631      2      4   71.45 6.1295</span></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 167 453.3181      2      4   71.45 5.4651</span></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 168 432.8997      2      4   71.45 5.2869</span></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 169 447.5288      2      4   67.27 6.1951</span></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 170 279.3994      0      2   54.84 3.0059</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 171 395.7213      1      3   26.71 4.5898</span></span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 172 321.7992      2      2   50.72 3.6366</span></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 173 401.8857      2      3   49.33 5.5740</span></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 174 354.4021      2      4   62.22 4.1527</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 175 484.9539      1      6  113.73 4.8334</span></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 176 359.4180      0      2   54.73 5.2512</span></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 177 398.4547      0      3   51.13 4.5674</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 178 500.1858      1      3   55.87 5.9747</span></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 179 367.4821      1      3   49.77 4.2540</span></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 180 334.3859      2      5   67.43 3.5116</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 181 453.5382      1      4   54.57 8.5045</span></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 182 286.1973      0      2   20.31 4.1286</span></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 183 371.4535      1      2   63.63 4.8129</span></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 184 420.3231      1      2   54.40 5.5777</span></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 185 361.2225      3      3   65.12 4.6665</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 186 332.5052      3      3   76.38 4.5174</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187 272.3013      0      3   42.85 4.1662</span></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188 337.1703      0      3   42.85 4.4284</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189 293.3173      1      4   55.40 3.1658</span></span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 190 327.4267      1      4  108.42 3.3785</span></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 191 360.2296      1      4   83.12 3.5851</span></span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 192 415.5751      1      5   98.92 5.1112</span></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 193 357.4060      2      3   67.01 4.3877</span></span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 194 278.7097      2      3   41.13 3.8790</span></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 195 422.4364      3      5  100.02 4.2352</span></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 196 378.4876      1      5   88.00 3.7843</span></span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 197 431.3125      1      4   54.71 4.9098</span></span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 198 265.3917      2      2   41.49 3.4042</span></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 199 362.2676      2      4   56.84 3.9056</span></span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 200 440.5173      3      7  123.77 3.5500</span></span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 201 329.3726      2      5   66.07 2.4152</span></span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 202 480.5796      2      2   92.67 7.2172</span></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 203 245.3174      1      2   38.33 3.5255</span></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 204 358.4355      0      2   24.72 6.4826</span></span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 205 496.0004      1      2   47.67 7.4397</span></span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 206 417.4299      0      2   48.00 5.0091</span></span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 207 256.3865      1      2   27.09 4.9299</span></span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 208 335.8291      1      5   54.46 2.8947</span></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 209 368.9037      1      4   41.05 4.9191</span></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 210 470.1598      2      4   49.84 6.9694</span></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 211 393.4829      2      7   88.86 2.4314</span></span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 212 440.2853      0      5   74.30 2.4449</span></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 213 466.5579      1      8  112.31 2.0966</span></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 214 416.2870      1      4   39.60 4.4058</span></span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 215 290.2438      1      4   50.70 4.1130</span></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 216 290.2438      1      4   51.81 4.4057</span></span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 217 335.3109      0      3   94.35 3.4978</span></span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 218 362.4225      1      4   58.64 3.5192</span></span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 219 372.4174      2      2   67.37 5.0988</span></span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 220 373.4054      2      3   76.24 4.0225</span></span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 221 442.3078      2      3   57.78 5.7121</span></span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 222 427.3140      1      5   88.00 2.3543</span></span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 223 441.3181      1      4   54.71 4.3294</span></span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 224 420.6770      2      5   71.09 4.2420</span></span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 225 383.6675      1      3   45.48 4.3217</span></span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 226 420.5050      1      6   66.93 3.8737</span></span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 227 412.4846      3      5   86.88 4.7220</span></span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 228 382.2433      2      3   57.78 5.3841</span></span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 229 440.4484      4      6  107.89 4.4248</span></span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 230 366.3400      1      4   50.70 5.0847</span></span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 231 434.4846      1      3   87.92 5.5356</span></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 232 380.4378      1      4   69.68 4.7102</span></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 233 357.2446      1      2   34.15 4.9298</span></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 234 430.5048      4      4  109.40 5.1926</span></span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 235 441.8562      1      5   87.07 5.0419</span></span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 236 403.4314      2      3   85.47 4.0061</span></span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 237 307.3697      1      4  101.58 2.0459</span></span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 238 456.5075      0      5   68.31 4.3195</span></span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 239 382.8634      1      5   88.00 2.2703</span></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 240 381.8130      2      5   80.32 2.8968</span></span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 241 232.7091      0      2   16.13 3.3039</span></span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 242 319.3579      1      3   67.05 3.1872</span></span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 243 349.5168      1      4  108.42 4.4641</span></span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 244 303.7839      0      1   21.70 4.2684</span></span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 245 315.8377      0      1   12.47 5.3364</span></span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 246 312.4153      1      3  108.00 4.3189</span></span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 247 332.3501      0      2   56.51 5.3178</span></span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 248 189.2142      1      3   61.03 1.4288</span></span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 249 200.2800      1      2   27.09 3.1051</span></span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 250 318.3235      0      2   56.51 4.8316</span></span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 251 348.1807      2      3   62.47 4.8811</span></span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 252 341.4098      1      5   63.59 5.1999</span></span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 253 293.5307      0      1   35.53 3.1341</span></span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 254 287.7845      0      1   12.47 4.9084</span></span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 255 287.3591      1      3   51.80 4.4471</span></span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 256 268.1389      1      2   29.10 3.4358</span></span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 257 280.1604      1      2   29.10 3.8341</span></span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 258 201.2648      1      2   29.10 3.0857</span></span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 259 279.3370      1      4   44.70 2.6761</span></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 260 265.3104      1      4   44.70 2.1899</span></span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 261 320.3890      2      4   59.07 4.3199</span></span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 262 326.3952      2      4   49.84 5.3906</span></span>
+<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 263 289.3319      3      3   60.94 3.9204</span></span>
+<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 264 273.7180      3      3   60.94 3.6764</span></span>
+<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 265 312.4068      1      3   35.94 3.1606</span></span>
+<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 266 199.2489      1      2   29.10 2.6950</span></span>
+<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 267 252.3149      2      3   57.94 2.6862</span></span>
+<span id="cb4-271"><a href="#cb4-271" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 268 254.3275      0      2   15.71 3.7398</span></span>
+<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 269 267.3505      1      3   66.05 4.0883</span></span>
+<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 270 298.7674      1      2   34.15 4.4970</span></span>
+<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 271 333.5731      2      3   41.13 4.7216</span></span>
+<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 272 274.3829      1      3   60.58 3.4279</span></span>
+<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 273 319.4203      1      2   75.80 3.5610</span></span>
+<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 274 331.4150      0      4   47.57 3.9406</span></span>
+<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 275 310.4151      1      3   70.23 4.6406</span></span>
+<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 276 245.2743      1      4   55.40 2.3200</span></span>
+<span id="cb4-280"><a href="#cb4-280" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 277 298.7674      1      2   34.15 4.5632</span></span>
+<span id="cb4-281"><a href="#cb4-281" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 278 319.4441      1      3   28.16 4.0719</span></span>
+<span id="cb4-282"><a href="#cb4-282" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 279 348.3959      1      5   68.29 3.9967</span></span>
+<span id="cb4-283"><a href="#cb4-283" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 280 287.3144      1      4   72.28 1.6009</span></span>
+<span id="cb4-284"><a href="#cb4-284" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 281 321.4169      1      3   37.39 4.3436</span></span>
+<span id="cb4-285"><a href="#cb4-285" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 282 280.3218      2      3   54.38 3.5652</span></span>
+<span id="cb4-286"><a href="#cb4-286" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 283 336.3852      1      4   60.45 3.5963</span></span>
+<span id="cb4-287"><a href="#cb4-287" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 284 274.3189      1      4   69.16 4.2202</span></span>
+<span id="cb4-288"><a href="#cb4-288" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 285 308.4423      1      2   53.16 6.2690</span></span>
+<span id="cb4-289"><a href="#cb4-289" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 286 245.2743      1      4   55.40 2.3200</span></span>
+<span id="cb4-290"><a href="#cb4-290" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 287 268.3541      0      2   15.71 4.0886</span></span>
+<span id="cb4-291"><a href="#cb4-291" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 268.3110      0      2   24.94 3.5243</span></span>
+<span id="cb4-292"><a href="#cb4-292" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 289 278.3059      1      2   55.13 3.2718</span></span>
+<span id="cb4-293"><a href="#cb4-293" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 290 345.8272      2      5   66.07 2.8741</span></span>
+<span id="cb4-294"><a href="#cb4-294" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 291 275.3085      1      4   55.11 3.2015</span></span>
+<span id="cb4-295"><a href="#cb4-295" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 292 359.4682      0      4   47.57 4.7719</span></span>
+<span id="cb4-296"><a href="#cb4-296" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 293 346.3966      0      5   49.85 3.3648</span></span>
+<span id="cb4-297"><a href="#cb4-297" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 294 228.3333      1      2   27.09 4.0175</span></span>
+<span id="cb4-298"><a href="#cb4-298" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 295 309.4061      0      4   28.07 3.4386</span></span>
+<span id="cb4-299"><a href="#cb4-299" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 296 323.3466      2      4   86.47 2.5607</span></span>
+<span id="cb4-300"><a href="#cb4-300" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 297 368.4751      1      4   31.40 5.0228</span></span>
+<span id="cb4-301"><a href="#cb4-301" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 298 501.3643      3      5   86.88 6.1688</span></span>
+<span id="cb4-302"><a href="#cb4-302" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 299 448.3646      2      4   49.84 7.3572</span></span>
+<span id="cb4-303"><a href="#cb4-303" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 300 291.3908      1      3   28.16 3.9106</span></span>
+<span id="cb4-304"><a href="#cb4-304" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 301 260.3386      2      6   83.24 1.1216</span></span>
+<span id="cb4-305"><a href="#cb4-305" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 302 277.7929      1      3   28.16 3.3257</span></span>
+<span id="cb4-306"><a href="#cb4-306" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 303 288.3008      0      3   52.08 3.6636</span></span>
+<span id="cb4-307"><a href="#cb4-307" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 304 325.5883      2      3   41.13 3.9357</span></span>
+<span id="cb4-308"><a href="#cb4-308" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 305 261.4030      2      2   32.26 4.3590</span></span>
+<span id="cb4-309"><a href="#cb4-309" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 306 355.4332      1      4   37.39 4.3247</span></span>
+<span id="cb4-310"><a href="#cb4-310" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 307 307.4333      1      3   28.16 3.6321</span></span>
+<span id="cb4-311"><a href="#cb4-311" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 308 270.3286      1      1   28.68 4.7890</span></span>
+<span id="cb4-312"><a href="#cb4-312" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 309 293.4067      1      3   28.16 3.5697</span></span>
+<span id="cb4-313"><a href="#cb4-313" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 310 199.2489      1      2   29.10 2.7816</span></span>
+<span id="cb4-314"><a href="#cb4-314" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 311 350.0277      2      3   41.13 5.1805</span></span>
+<span id="cb4-315"><a href="#cb4-315" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 312 281.1344      2      2   40.46 4.0663</span></span>
+<span id="cb4-316"><a href="#cb4-316" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 313 389.5341      1      4   29.95 4.7640</span></span>
+<span id="cb4-317"><a href="#cb4-317" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 314 279.3801      1      3   28.16 3.3630</span></span>
+<span id="cb4-318"><a href="#cb4-318" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 315 608.7247      1      3   72.86 6.9672</span></span>
+<span id="cb4-319"><a href="#cb4-319" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 316 324.4175      1      3   45.59 2.6207</span></span></code></pre></div>
+<p>Creating Lipinski Plots Visualize Lipinski Rule of Five parameters using the create_lipinski_plots function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create_lipinski_plots</span>(properties)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Druglikeness evaluation</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assess_drug_likeness</span>(properties)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           MW nHBDon nHBAcc TopoPSA  ALogP DrugLikeness</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   356.4180      2      3   54.38 5.8914         Pass</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   451.5605      2      3   70.50 8.1237         Fail</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   358.3885      1      3   85.22 3.9521         Pass</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   472.4570      4      8  159.72 5.6735         Fail</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   310.3720      1      3   75.99 3.7630         Fail</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   524.5732      4      4  127.86 6.3384         Fail</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   406.4993      1      4   90.90 4.8441         Fail</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8   637.7222      0      5  107.66 7.0274         Fail</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9   554.5051      0      3   55.84 6.4874         Fail</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  411.6242      1      4   35.58 4.2339         Fail</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  390.4999      1      3   79.46 4.1867         Pass</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  476.0349      0      3   62.90 7.2190         Fail</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  400.9424      1      3   45.48 3.8604         Pass</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14  384.4878      1      3   35.94 4.0949         Fail</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15  393.4003      1      3   49.77 4.5734         Fail</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  354.4618      1      3   26.71 4.1113         Pass</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  571.6646      0      4   54.45 6.8874         Fail</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  388.5062      2      4   61.02 4.4830         Pass</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  445.5213      2      4   44.37 4.7031         Fail</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  218.2522      0      4   41.90 0.9043         Fail</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21  357.7981      1      7   78.66 2.1145         Pass</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22  414.4816      0      5  107.35 4.2277         Fail</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23  400.4549      0      5  107.35 3.7415         Pass</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  303.3810      2      5   99.33 2.8064         Fail</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  362.4290      3      7   82.18 3.7992         Fail</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 26  362.4326      1      2   15.27 4.3255         Pass</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 27  418.5753      0      3   33.53 4.7073         Fail</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 28  413.5125      2      3   61.27 4.8044         Pass</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 29  479.9994      2      4   62.83 4.5669         Fail</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 30  438.8961      1      4   50.80 3.6605         Fail</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 31  586.7410      1      5  118.62 5.9067         Fail</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32  425.9519      1      5   48.83 4.6466         Fail</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 33  463.9572      0      4  109.53 4.4949         Pass</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 34  465.5855      1      4   63.27 4.6322         Fail</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35  462.4235      1      4   44.81 3.1807         Fail</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 36  434.5526      1      4   86.88 4.5343         Pass</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 37  462.6058      1      4   86.88 4.8900         Fail</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 38  448.5792      1      4   86.88 4.5412         Pass</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 39  409.5032      1      4  103.68 3.6894         Fail</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 40  468.9976      1      4   86.88 5.1987         Fail</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 41  391.4820      2      3   48.13 3.9869         Pass</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 42  484.5872      1      4   67.87 5.2310         Fail</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 43  413.5157      2      5   64.26 3.7656         Pass</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 44  398.5011      2      4   61.02 4.6285         Fail</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 45  495.0604      2      6   67.50 4.7107         Fail</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 46  497.7411      1      6   79.95 4.4994         Pass</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 47  458.6204      1      4   78.40 6.0283         Fail</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 48  444.5938      1      4   78.40 5.5421         Fail</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 49  397.5356      1      5   80.89 3.5364         Fail</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50  493.5983      1      5   90.87 4.6224         Fail</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 51  453.5748      1      4   63.27 4.0869         Pass</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 52  367.3992      2      6   87.74 2.8245         Fail</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 53  456.9675      1      5   58.12 4.3794         Pass</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 54  456.9675      1      5   58.12 4.3794         Fail</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 55  460.5275      2      2   75.82 6.6530         Fail</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 56  459.6084      1      5   81.64 4.6594         Pass</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 57  423.4221      1      5  115.94 3.7888         Fail</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 58  487.0161      1      6   83.15 3.6188         Fail</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 59  420.4806      1      5  121.98 3.4845         Fail</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 60  445.5113      1      6   82.71 3.0586         Fail</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 61  340.7793      0      3   33.20 4.6625         Pass</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 62  367.3992      1      2   86.48 4.0561         Fail</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 63  383.4815      1      4   59.00 4.2014         Pass</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 64  480.5780      0      5   84.53 5.2072         Fail</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 65  395.5197      0      4   83.56 4.6735         Fail</span></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 66  376.4243      1      2   47.17 4.9369         Pass</span></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 67  458.6188      1      4   96.86 4.5785         Fail</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 68  450.5735      1      4   77.88 5.4409         Fail</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 69  426.5789      1      3  133.00 5.8538         Fail</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 70  420.5501      1      3  104.76 5.9004         Fail</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 71  425.9519      1      5   48.83 4.7928         Pass</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 72  354.8059      2      3   41.13 5.5209         Fail</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 73  363.4536      1      4   54.46 4.6697         Pass</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 74  405.4904      1      4   63.69 4.8729         Fail</span></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 75  396.9106      1      3   41.57 4.2710         Fail</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 76  434.5316      1      5   66.93 4.2618         Pass</span></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 77  341.7193      1      4   55.11 4.4876         Fail</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 78  405.4904      0      4   54.90 3.8560         Pass</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 79  339.3460      1      2   86.48 3.3585         Fail</span></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 80  389.7904      1      2   95.71 3.5203         Fail</span></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 81  359.7643      1      2   86.48 3.5367         Pass</span></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 82  416.5167      1      5  121.98 3.5627         Fail</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 83  384.4937      1      5   74.86 3.8988         Pass</span></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 84  397.4925      1      3   90.68 4.3726         Fail</span></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 85  431.5487      1      3   87.66 7.1551         Fail</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 86  510.4217      1      2   38.33 6.6888         Fail</span></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 87  326.4419      0      3   99.56 4.6354         Fail</span></span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 88  249.7397      2      3   36.95 2.1546         Pass</span></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 89  292.3325      0      3   41.90 3.7709         Fail</span></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 90  293.3173      0      2   47.89 3.9411         Fail</span></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 91  283.7096      0      2   38.66 4.2731         Pass</span></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 92  273.3276      1      3   49.77 3.0997         Fail</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 93  314.4194      1      2   46.53 6.0850         Fail</span></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 94  267.3295      1      4   55.11 3.2326         Fail</span></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95  368.6529      2      3   49.33 4.3242         Fail</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 96  468.3386      0      5   74.30 3.1425         Pass</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 97  328.1602      0      2   38.66 4.3571         Fail</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 98  420.5034      2      3   58.29 6.8663         Fail</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 99  315.6754      2      3   49.33 3.9540         Fail</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 100 403.9084      1      5  125.49 4.1159         Fail</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 101 327.6927      1      4   55.11 4.0014         Pass</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 102 494.5455      2      8  110.98 2.0218         Fail</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 103 413.5765      1      2   57.34 6.2161         Fail</span></span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 104 559.6258      1      5   53.40 6.4241         Fail</span></span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 105 286.3280      0      2   34.89 4.2707         Fail</span></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 106 294.4395      3      6   74.76 4.1261         Pass</span></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 107 592.6492      1      4   67.87 6.9870         Fail</span></span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 108 274.3156      1      2   64.36 3.0657         Pass</span></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 109 411.9494      1      3   72.22 5.7612         Fail</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 110 301.4050      1      2   67.54 3.8328         Fail</span></span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 111 346.4208      2      4   86.44 3.8400         Pass</span></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 112 465.6113      0      2   65.24 7.6743         Fail</span></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 113 377.8626      1      2   56.79 4.3119         Pass</span></span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 114 347.8365      1      2   47.56 4.3283         Fail</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 115 314.4658      2      2   37.19 4.2308         Fail</span></span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 116 353.3726      2      6   87.74 1.6457         Pass</span></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 117 385.8657      1      3   83.64 5.0629         Fail</span></span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 118 500.5677      1      6  113.73 5.0774         Fail</span></span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 119 460.5468      0      5   86.64 6.0652         Fail</span></span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 120 546.5889      1      6   75.71 5.7672         Fail</span></span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 121 338.2720      2      2   32.26 4.8755         Pass</span></span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 122 479.5309      2      7   98.09 2.7260         Fail</span></span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 123 310.4340      2      2   37.19 4.2018         Pass</span></span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 124 459.9218      0      3   57.53 6.8199         Fail</span></span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 125 309.3167      0      2   57.12 3.5759         Fail</span></span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 126 292.5033      1      2   15.27 3.8729         Pass</span></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 127 367.5252      2      3   41.49 4.7391         Fail</span></span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 128 281.2700      2      3   96.21 3.2356         Pass</span></span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 129 282.5511      1      2   38.33 3.0808         Fail</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 130 391.8892      2      2   59.95 4.4488         Fail</span></span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 131 343.3794      2      3   67.01 4.0389         Pass</span></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 132 621.7718      0      7   94.76 8.0416         Fail</span></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 133 370.4860      2      4   61.80 3.9713         Pass</span></span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 134 659.6837      0      4   91.37 6.4236         Fail</span></span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 135 468.0990      0      3   53.26 8.6561         Fail</span></span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 136 422.3131      1      2   56.79 4.3959         Pass</span></span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 137 357.4043      1      5   75.02 1.7787         Fail</span></span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 138 387.4767      1      2   31.92 5.8080         Fail</span></span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 139 286.7534      0      1   26.30 4.2597         Fail</span></span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 140 377.8626      2      2   59.95 4.1000         Fail</span></span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 141 364.4384      1      4   60.45 5.0167         Pass</span></span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 142 657.7540      0      5   80.75 7.0971         Fail</span></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 143 338.2720      2      2   32.26 4.9542         Pass</span></span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 144 347.8365      2      2   50.72 4.1164         Fail</span></span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 145 359.4013      2      6  115.98 1.5991         Fail</span></span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 146 494.6477      1      5   96.11 4.7480         Pass</span></span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 147 386.4920      0      6   80.29 3.4616         Fail</span></span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 148 436.5684      1      4   90.79 5.2410         Fail</span></span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 149 335.4435      1      3   46.92 4.1187         Fail</span></span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 150 410.4207      2      8  115.22 1.0092         Fail</span></span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 151 334.3693      1      2   73.91 3.5003         Pass</span></span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 152 322.4447      2      2   37.19 4.4796         Fail</span></span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 153 574.2378      2      2   37.19 5.6360         Fail</span></span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 154 631.7167      0      4   72.91 6.8546         Fail</span></span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 155 496.6825      2      4   76.66 4.9598         Fail</span></span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 156 349.8524      2      2   50.72 3.7984         Pass</span></span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 157 261.7471      2      2   32.26 3.7257         Fail</span></span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 158 337.4179      2      2   40.71 5.3601         Fail</span></span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 159 308.4181      2      2   37.19 4.0234         Fail</span></span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 160 309.8126      0      3   57.78 3.5043         Fail</span></span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 161 419.4755      2      4   67.27 5.7020         Pass</span></span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 162 367.2702      2      3   46.42 3.8192         Fail</span></span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 163 282.1639      1      2   46.53 2.6255         Pass</span></span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 164 312.1899      1      2   55.76 2.6091         Fail</span></span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 165 394.4213      1      2   92.37 3.4675         Fail</span></span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 166 487.7631      2      4   71.45 6.1295         Pass</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 167 453.3181      2      4   71.45 5.4651         Fail</span></span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 168 432.8997      2      4   71.45 5.2869         Fail</span></span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 169 447.5288      2      4   67.27 6.1951         Fail</span></span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 170 279.3994      0      2   54.84 3.0059         Fail</span></span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 171 395.7213      1      3   26.71 4.5898         Pass</span></span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 172 321.7992      2      2   50.72 3.6366         Fail</span></span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 173 401.8857      2      3   49.33 5.5740         Fail</span></span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 174 354.4021      2      4   62.22 4.1527         Fail</span></span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 175 484.9539      1      6  113.73 4.8334         Fail</span></span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 176 359.4180      0      2   54.73 5.2512         Pass</span></span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 177 398.4547      0      3   51.13 4.5674         Fail</span></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 178 500.1858      1      3   55.87 5.9747         Fail</span></span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 179 367.4821      1      3   49.77 4.2540         Fail</span></span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 180 334.3859      2      5   67.43 3.5116         Fail</span></span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 181 453.5382      1      4   54.57 8.5045         Pass</span></span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 182 286.1973      0      2   20.31 4.1286         Fail</span></span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 183 371.4535      1      2   63.63 4.8129         Pass</span></span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 184 420.3231      1      2   54.40 5.5777         Fail</span></span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 185 361.2225      3      3   65.12 4.6665         Fail</span></span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 186 332.5052      3      3   76.38 4.5174         Pass</span></span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187 272.3013      0      3   42.85 4.1662         Fail</span></span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188 337.1703      0      3   42.85 4.4284         Pass</span></span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189 293.3173      1      4   55.40 3.1658         Fail</span></span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 190 327.4267      1      4  108.42 3.3785         Fail</span></span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 191 360.2296      1      4   83.12 3.5851         Pass</span></span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 192 415.5751      1      5   98.92 5.1112         Fail</span></span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 193 357.4060      2      3   67.01 4.3877         Pass</span></span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 194 278.7097      2      3   41.13 3.8790         Fail</span></span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 195 422.4364      3      5  100.02 4.2352         Fail</span></span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 196 378.4876      1      5   88.00 3.7843         Pass</span></span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 197 431.3125      1      4   54.71 4.9098         Fail</span></span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 198 265.3917      2      2   41.49 3.4042         Pass</span></span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 199 362.2676      2      4   56.84 3.9056         Fail</span></span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 200 440.5173      3      7  123.77 3.5500         Fail</span></span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 201 329.3726      2      5   66.07 2.4152         Pass</span></span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 202 480.5796      2      2   92.67 7.2172         Fail</span></span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 203 245.3174      1      2   38.33 3.5255         Pass</span></span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 204 358.4355      0      2   24.72 6.4826         Fail</span></span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 205 496.0004      1      2   47.67 7.4397         Fail</span></span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 206 417.4299      0      2   48.00 5.0091         Pass</span></span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 207 256.3865      1      2   27.09 4.9299         Fail</span></span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 208 335.8291      1      5   54.46 2.8947         Pass</span></span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 209 368.9037      1      4   41.05 4.9191         Fail</span></span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 210 470.1598      2      4   49.84 6.9694         Fail</span></span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 211 393.4829      2      7   88.86 2.4314         Pass</span></span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 212 440.2853      0      5   74.30 2.4449         Fail</span></span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 213 466.5579      1      8  112.31 2.0966         Fail</span></span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 214 416.2870      1      4   39.60 4.4058         Fail</span></span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 215 290.2438      1      4   50.70 4.1130         Fail</span></span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 216 290.2438      1      4   51.81 4.4057         Pass</span></span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 217 335.3109      0      3   94.35 3.4978         Fail</span></span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 218 362.4225      1      4   58.64 3.5192         Pass</span></span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 219 372.4174      2      2   67.37 5.0988         Fail</span></span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 220 373.4054      2      3   76.24 4.0225         Fail</span></span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 221 442.3078      2      3   57.78 5.7121         Pass</span></span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 222 427.3140      1      5   88.00 2.3543         Fail</span></span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 223 441.3181      1      4   54.71 4.3294         Pass</span></span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 224 420.6770      2      5   71.09 4.2420         Fail</span></span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 225 383.6675      1      3   45.48 4.3217         Fail</span></span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 226 420.5050      1      6   66.93 3.8737         Pass</span></span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 227 412.4846      3      5   86.88 4.7220         Fail</span></span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 228 382.2433      2      3   57.78 5.3841         Fail</span></span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 229 440.4484      4      6  107.89 4.4248         Fail</span></span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 230 366.3400      1      4   50.70 5.0847         Fail</span></span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 231 434.4846      1      3   87.92 5.5356         Pass</span></span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 232 380.4378      1      4   69.68 4.7102         Fail</span></span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 233 357.2446      1      2   34.15 4.9298         Pass</span></span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 234 430.5048      4      4  109.40 5.1926         Fail</span></span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 235 441.8562      1      5   87.07 5.0419         Fail</span></span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 236 403.4314      2      3   85.47 4.0061         Pass</span></span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 237 307.3697      1      4  101.58 2.0459         Fail</span></span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 238 456.5075      0      5   68.31 4.3195         Pass</span></span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 239 382.8634      1      5   88.00 2.2703         Fail</span></span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 240 381.8130      2      5   80.32 2.8968         Fail</span></span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 241 232.7091      0      2   16.13 3.3039         Pass</span></span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 242 319.3579      1      3   67.05 3.1872         Fail</span></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 243 349.5168      1      4  108.42 4.4641         Pass</span></span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 244 303.7839      0      1   21.70 4.2684         Fail</span></span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 245 315.8377      0      1   12.47 5.3364         Fail</span></span>
+<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 246 312.4153      1      3  108.00 4.3189         Pass</span></span>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 247 332.3501      0      2   56.51 5.3178         Fail</span></span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 248 189.2142      1      3   61.03 1.4288         Pass</span></span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 249 200.2800      1      2   27.09 3.1051         Fail</span></span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 250 318.3235      0      2   56.51 4.8316         Fail</span></span>
+<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 251 348.1807      2      3   62.47 4.8811         Pass</span></span>
+<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 252 341.4098      1      5   63.59 5.1999         Fail</span></span>
+<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 253 293.5307      0      1   35.53 3.1341         Pass</span></span>
+<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 254 287.7845      0      1   12.47 4.9084         Fail</span></span>
+<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 255 287.3591      1      3   51.80 4.4471         Fail</span></span>
+<span id="cb6-258"><a href="#cb6-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 256 268.1389      1      2   29.10 3.4358         Pass</span></span>
+<span id="cb6-259"><a href="#cb6-259" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 257 280.1604      1      2   29.10 3.8341         Fail</span></span>
+<span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 258 201.2648      1      2   29.10 3.0857         Pass</span></span>
+<span id="cb6-261"><a href="#cb6-261" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 259 279.3370      1      4   44.70 2.6761         Fail</span></span>
+<span id="cb6-262"><a href="#cb6-262" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 260 265.3104      1      4   44.70 2.1899         Fail</span></span>
+<span id="cb6-263"><a href="#cb6-263" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 261 320.3890      2      4   59.07 4.3199         Pass</span></span>
+<span id="cb6-264"><a href="#cb6-264" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 262 326.3952      2      4   49.84 5.3906         Fail</span></span>
+<span id="cb6-265"><a href="#cb6-265" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 263 289.3319      3      3   60.94 3.9204         Pass</span></span>
+<span id="cb6-266"><a href="#cb6-266" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 264 273.7180      3      3   60.94 3.6764         Fail</span></span>
+<span id="cb6-267"><a href="#cb6-267" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 265 312.4068      1      3   35.94 3.1606         Fail</span></span>
+<span id="cb6-268"><a href="#cb6-268" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 266 199.2489      1      2   29.10 2.6950         Pass</span></span>
+<span id="cb6-269"><a href="#cb6-269" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 267 252.3149      2      3   57.94 2.6862         Fail</span></span>
+<span id="cb6-270"><a href="#cb6-270" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 268 254.3275      0      2   15.71 3.7398         Pass</span></span>
+<span id="cb6-271"><a href="#cb6-271" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 269 267.3505      1      3   66.05 4.0883         Fail</span></span>
+<span id="cb6-272"><a href="#cb6-272" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 270 298.7674      1      2   34.15 4.4970         Fail</span></span>
+<span id="cb6-273"><a href="#cb6-273" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 271 333.5731      2      3   41.13 4.7216         Pass</span></span>
+<span id="cb6-274"><a href="#cb6-274" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 272 274.3829      1      3   60.58 3.4279         Fail</span></span>
+<span id="cb6-275"><a href="#cb6-275" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 273 319.4203      1      2   75.80 3.5610         Pass</span></span>
+<span id="cb6-276"><a href="#cb6-276" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 274 331.4150      0      4   47.57 3.9406         Fail</span></span>
+<span id="cb6-277"><a href="#cb6-277" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 275 310.4151      1      3   70.23 4.6406         Fail</span></span>
+<span id="cb6-278"><a href="#cb6-278" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 276 245.2743      1      4   55.40 2.3200         Pass</span></span>
+<span id="cb6-279"><a href="#cb6-279" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 277 298.7674      1      2   34.15 4.5632         Fail</span></span>
+<span id="cb6-280"><a href="#cb6-280" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 278 319.4441      1      3   28.16 4.0719         Pass</span></span>
+<span id="cb6-281"><a href="#cb6-281" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 279 348.3959      1      5   68.29 3.9967         Fail</span></span>
+<span id="cb6-282"><a href="#cb6-282" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 280 287.3144      1      4   72.28 1.6009         Fail</span></span>
+<span id="cb6-283"><a href="#cb6-283" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 281 321.4169      1      3   37.39 4.3436         Pass</span></span>
+<span id="cb6-284"><a href="#cb6-284" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 282 280.3218      2      3   54.38 3.5652         Fail</span></span>
+<span id="cb6-285"><a href="#cb6-285" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 283 336.3852      1      4   60.45 3.5963         Pass</span></span>
+<span id="cb6-286"><a href="#cb6-286" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 284 274.3189      1      4   69.16 4.2202         Fail</span></span>
+<span id="cb6-287"><a href="#cb6-287" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 285 308.4423      1      2   53.16 6.2690         Fail</span></span>
+<span id="cb6-288"><a href="#cb6-288" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 286 245.2743      1      4   55.40 2.3200         Pass</span></span>
+<span id="cb6-289"><a href="#cb6-289" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 287 268.3541      0      2   15.71 4.0886         Fail</span></span>
+<span id="cb6-290"><a href="#cb6-290" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 268.3110      0      2   24.94 3.5243         Pass</span></span>
+<span id="cb6-291"><a href="#cb6-291" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 289 278.3059      1      2   55.13 3.2718         Fail</span></span>
+<span id="cb6-292"><a href="#cb6-292" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 290 345.8272      2      5   66.07 2.8741         Fail</span></span>
+<span id="cb6-293"><a href="#cb6-293" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 291 275.3085      1      4   55.11 3.2015         Pass</span></span>
+<span id="cb6-294"><a href="#cb6-294" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 292 359.4682      0      4   47.57 4.7719         Fail</span></span>
+<span id="cb6-295"><a href="#cb6-295" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 293 346.3966      0      5   49.85 3.3648         Pass</span></span>
+<span id="cb6-296"><a href="#cb6-296" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 294 228.3333      1      2   27.09 4.0175         Fail</span></span>
+<span id="cb6-297"><a href="#cb6-297" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 295 309.4061      0      4   28.07 3.4386         Fail</span></span>
+<span id="cb6-298"><a href="#cb6-298" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 296 323.3466      2      4   86.47 2.5607         Pass</span></span>
+<span id="cb6-299"><a href="#cb6-299" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 297 368.4751      1      4   31.40 5.0228         Fail</span></span>
+<span id="cb6-300"><a href="#cb6-300" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 298 501.3643      3      5   86.88 6.1688         Fail</span></span>
+<span id="cb6-301"><a href="#cb6-301" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 299 448.3646      2      4   49.84 7.3572         Fail</span></span>
+<span id="cb6-302"><a href="#cb6-302" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 300 291.3908      1      3   28.16 3.9106         Fail</span></span>
+<span id="cb6-303"><a href="#cb6-303" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 301 260.3386      2      6   83.24 1.1216         Pass</span></span>
+<span id="cb6-304"><a href="#cb6-304" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 302 277.7929      1      3   28.16 3.3257         Fail</span></span>
+<span id="cb6-305"><a href="#cb6-305" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 303 288.3008      0      3   52.08 3.6636         Pass</span></span>
+<span id="cb6-306"><a href="#cb6-306" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 304 325.5883      2      3   41.13 3.9357         Fail</span></span>
+<span id="cb6-307"><a href="#cb6-307" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 305 261.4030      2      2   32.26 4.3590         Fail</span></span>
+<span id="cb6-308"><a href="#cb6-308" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 306 355.4332      1      4   37.39 4.3247         Pass</span></span>
+<span id="cb6-309"><a href="#cb6-309" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 307 307.4333      1      3   28.16 3.6321         Fail</span></span>
+<span id="cb6-310"><a href="#cb6-310" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 308 270.3286      1      1   28.68 4.7890         Pass</span></span>
+<span id="cb6-311"><a href="#cb6-311" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 309 293.4067      1      3   28.16 3.5697         Fail</span></span>
+<span id="cb6-312"><a href="#cb6-312" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 310 199.2489      1      2   29.10 2.7816         Fail</span></span>
+<span id="cb6-313"><a href="#cb6-313" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 311 350.0277      2      3   41.13 5.1805         Pass</span></span>
+<span id="cb6-314"><a href="#cb6-314" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 312 281.1344      2      2   40.46 4.0663         Fail</span></span>
+<span id="cb6-315"><a href="#cb6-315" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 313 389.5341      1      4   29.95 4.7640         Pass</span></span>
+<span id="cb6-316"><a href="#cb6-316" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 314 279.3801      1      3   28.16 3.3630         Fail</span></span>
+<span id="cb6-317"><a href="#cb6-317" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 315 608.7247      1      3   72.86 6.9672         Fail</span></span>
+<span id="cb6-318"><a href="#cb6-318" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 316 324.4175      1      3   45.59 2.6207         Pass</span></span></code></pre></div>
+<p>Bioavailability prediction</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict_oral_bioavailability</span>(properties)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           MW nHBDon nHBAcc TopoPSA  ALogP OralBioavailability</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   356.4180      2      3   54.38 5.8914                 Low</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   451.5605      2      3   70.50 8.1237                 Low</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   358.3885      1      3   85.22 3.9521                High</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   472.4570      4      8  159.72 5.6735                 Low</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   310.3720      1      3   75.99 3.7630                High</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   524.5732      4      4  127.86 6.3384                 Low</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   406.4993      1      4   90.90 4.8441                High</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8   637.7222      0      5  107.66 7.0274                 Low</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9   554.5051      0      3   55.84 6.4874                 Low</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  411.6242      1      4   35.58 4.2339                High</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11  390.4999      1      3   79.46 4.1867                High</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12  476.0349      0      3   62.90 7.2190                 Low</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13  400.9424      1      3   45.48 3.8604                High</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14  384.4878      1      3   35.94 4.0949                High</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15  393.4003      1      3   49.77 4.5734                High</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16  354.4618      1      3   26.71 4.1113                High</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17  571.6646      0      4   54.45 6.8874                 Low</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18  388.5062      2      4   61.02 4.4830                High</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19  445.5213      2      4   44.37 4.7031                High</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20  218.2522      0      4   41.90 0.9043                High</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21  357.7981      1      7   78.66 2.1145                High</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22  414.4816      0      5  107.35 4.2277                High</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23  400.4549      0      5  107.35 3.7415                High</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24  303.3810      2      5   99.33 2.8064                High</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25  362.4290      3      7   82.18 3.7992                High</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 26  362.4326      1      2   15.27 4.3255                High</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 27  418.5753      0      3   33.53 4.7073                High</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 28  413.5125      2      3   61.27 4.8044                High</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 29  479.9994      2      4   62.83 4.5669                High</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 30  438.8961      1      4   50.80 3.6605                High</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 31  586.7410      1      5  118.62 5.9067                 Low</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32  425.9519      1      5   48.83 4.6466                High</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 33  463.9572      0      4  109.53 4.4949                High</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 34  465.5855      1      4   63.27 4.6322                High</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35  462.4235      1      4   44.81 3.1807                High</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 36  434.5526      1      4   86.88 4.5343                High</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 37  462.6058      1      4   86.88 4.8900                High</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 38  448.5792      1      4   86.88 4.5412                High</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 39  409.5032      1      4  103.68 3.6894                High</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 40  468.9976      1      4   86.88 5.1987                 Low</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 41  391.4820      2      3   48.13 3.9869                High</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 42  484.5872      1      4   67.87 5.2310                 Low</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 43  413.5157      2      5   64.26 3.7656                High</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 44  398.5011      2      4   61.02 4.6285                High</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 45  495.0604      2      6   67.50 4.7107                High</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 46  497.7411      1      6   79.95 4.4994                High</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 47  458.6204      1      4   78.40 6.0283                 Low</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 48  444.5938      1      4   78.40 5.5421                 Low</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 49  397.5356      1      5   80.89 3.5364                High</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50  493.5983      1      5   90.87 4.6224                High</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 51  453.5748      1      4   63.27 4.0869                High</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 52  367.3992      2      6   87.74 2.8245                High</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 53  456.9675      1      5   58.12 4.3794                High</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 54  456.9675      1      5   58.12 4.3794                High</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 55  460.5275      2      2   75.82 6.6530                 Low</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 56  459.6084      1      5   81.64 4.6594                High</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 57  423.4221      1      5  115.94 3.7888                High</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 58  487.0161      1      6   83.15 3.6188                High</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 59  420.4806      1      5  121.98 3.4845                High</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 60  445.5113      1      6   82.71 3.0586                High</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 61  340.7793      0      3   33.20 4.6625                High</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 62  367.3992      1      2   86.48 4.0561                High</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 63  383.4815      1      4   59.00 4.2014                High</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 64  480.5780      0      5   84.53 5.2072                 Low</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 65  395.5197      0      4   83.56 4.6735                High</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 66  376.4243      1      2   47.17 4.9369                High</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 67  458.6188      1      4   96.86 4.5785                High</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 68  450.5735      1      4   77.88 5.4409                 Low</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 69  426.5789      1      3  133.00 5.8538                 Low</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 70  420.5501      1      3  104.76 5.9004                 Low</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 71  425.9519      1      5   48.83 4.7928                High</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 72  354.8059      2      3   41.13 5.5209                 Low</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 73  363.4536      1      4   54.46 4.6697                High</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 74  405.4904      1      4   63.69 4.8729                High</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 75  396.9106      1      3   41.57 4.2710                High</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 76  434.5316      1      5   66.93 4.2618                High</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 77  341.7193      1      4   55.11 4.4876                High</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 78  405.4904      0      4   54.90 3.8560                High</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 79  339.3460      1      2   86.48 3.3585                High</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 80  389.7904      1      2   95.71 3.5203                High</span></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 81  359.7643      1      2   86.48 3.5367                High</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 82  416.5167      1      5  121.98 3.5627                High</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 83  384.4937      1      5   74.86 3.8988                High</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 84  397.4925      1      3   90.68 4.3726                High</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 85  431.5487      1      3   87.66 7.1551                 Low</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 86  510.4217      1      2   38.33 6.6888                 Low</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 87  326.4419      0      3   99.56 4.6354                High</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 88  249.7397      2      3   36.95 2.1546                High</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 89  292.3325      0      3   41.90 3.7709                High</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 90  293.3173      0      2   47.89 3.9411                High</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 91  283.7096      0      2   38.66 4.2731                High</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 92  273.3276      1      3   49.77 3.0997                High</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 93  314.4194      1      2   46.53 6.0850                 Low</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 94  267.3295      1      4   55.11 3.2326                High</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95  368.6529      2      3   49.33 4.3242                High</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 96  468.3386      0      5   74.30 3.1425                High</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 97  328.1602      0      2   38.66 4.3571                High</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 98  420.5034      2      3   58.29 6.8663                 Low</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 99  315.6754      2      3   49.33 3.9540                High</span></span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 100 403.9084      1      5  125.49 4.1159                High</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 101 327.6927      1      4   55.11 4.0014                High</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 102 494.5455      2      8  110.98 2.0218                High</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 103 413.5765      1      2   57.34 6.2161                 Low</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 104 559.6258      1      5   53.40 6.4241                 Low</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 105 286.3280      0      2   34.89 4.2707                High</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 106 294.4395      3      6   74.76 4.1261                High</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 107 592.6492      1      4   67.87 6.9870                 Low</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 108 274.3156      1      2   64.36 3.0657                High</span></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 109 411.9494      1      3   72.22 5.7612                 Low</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 110 301.4050      1      2   67.54 3.8328                High</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 111 346.4208      2      4   86.44 3.8400                High</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 112 465.6113      0      2   65.24 7.6743                 Low</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 113 377.8626      1      2   56.79 4.3119                High</span></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 114 347.8365      1      2   47.56 4.3283                High</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 115 314.4658      2      2   37.19 4.2308                High</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 116 353.3726      2      6   87.74 1.6457                High</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 117 385.8657      1      3   83.64 5.0629                 Low</span></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 118 500.5677      1      6  113.73 5.0774                 Low</span></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 119 460.5468      0      5   86.64 6.0652                 Low</span></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 120 546.5889      1      6   75.71 5.7672                 Low</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 121 338.2720      2      2   32.26 4.8755                High</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 122 479.5309      2      7   98.09 2.7260                High</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 123 310.4340      2      2   37.19 4.2018                High</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 124 459.9218      0      3   57.53 6.8199                 Low</span></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 125 309.3167      0      2   57.12 3.5759                High</span></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 126 292.5033      1      2   15.27 3.8729                High</span></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 127 367.5252      2      3   41.49 4.7391                High</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 128 281.2700      2      3   96.21 3.2356                High</span></span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 129 282.5511      1      2   38.33 3.0808                High</span></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 130 391.8892      2      2   59.95 4.4488                High</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 131 343.3794      2      3   67.01 4.0389                High</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 132 621.7718      0      7   94.76 8.0416                 Low</span></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 133 370.4860      2      4   61.80 3.9713                High</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 134 659.6837      0      4   91.37 6.4236                 Low</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 135 468.0990      0      3   53.26 8.6561                 Low</span></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 136 422.3131      1      2   56.79 4.3959                High</span></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 137 357.4043      1      5   75.02 1.7787                High</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 138 387.4767      1      2   31.92 5.8080                 Low</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 139 286.7534      0      1   26.30 4.2597                High</span></span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 140 377.8626      2      2   59.95 4.1000                High</span></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 141 364.4384      1      4   60.45 5.0167                 Low</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 142 657.7540      0      5   80.75 7.0971                 Low</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 143 338.2720      2      2   32.26 4.9542                High</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 144 347.8365      2      2   50.72 4.1164                High</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 145 359.4013      2      6  115.98 1.5991                High</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 146 494.6477      1      5   96.11 4.7480                High</span></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 147 386.4920      0      6   80.29 3.4616                High</span></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 148 436.5684      1      4   90.79 5.2410                 Low</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 149 335.4435      1      3   46.92 4.1187                High</span></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 150 410.4207      2      8  115.22 1.0092                High</span></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 151 334.3693      1      2   73.91 3.5003                High</span></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 152 322.4447      2      2   37.19 4.4796                High</span></span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 153 574.2378      2      2   37.19 5.6360                 Low</span></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 154 631.7167      0      4   72.91 6.8546                 Low</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 155 496.6825      2      4   76.66 4.9598                High</span></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 156 349.8524      2      2   50.72 3.7984                High</span></span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 157 261.7471      2      2   32.26 3.7257                High</span></span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 158 337.4179      2      2   40.71 5.3601                 Low</span></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 159 308.4181      2      2   37.19 4.0234                High</span></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 160 309.8126      0      3   57.78 3.5043                High</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 161 419.4755      2      4   67.27 5.7020                 Low</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 162 367.2702      2      3   46.42 3.8192                High</span></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 163 282.1639      1      2   46.53 2.6255                High</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 164 312.1899      1      2   55.76 2.6091                High</span></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 165 394.4213      1      2   92.37 3.4675                High</span></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 166 487.7631      2      4   71.45 6.1295                 Low</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 167 453.3181      2      4   71.45 5.4651                 Low</span></span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 168 432.8997      2      4   71.45 5.2869                 Low</span></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 169 447.5288      2      4   67.27 6.1951                 Low</span></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 170 279.3994      0      2   54.84 3.0059                High</span></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 171 395.7213      1      3   26.71 4.5898                High</span></span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 172 321.7992      2      2   50.72 3.6366                High</span></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 173 401.8857      2      3   49.33 5.5740                 Low</span></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 174 354.4021      2      4   62.22 4.1527                High</span></span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 175 484.9539      1      6  113.73 4.8334                High</span></span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 176 359.4180      0      2   54.73 5.2512                 Low</span></span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 177 398.4547      0      3   51.13 4.5674                High</span></span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 178 500.1858      1      3   55.87 5.9747                 Low</span></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 179 367.4821      1      3   49.77 4.2540                High</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 180 334.3859      2      5   67.43 3.5116                High</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 181 453.5382      1      4   54.57 8.5045                 Low</span></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 182 286.1973      0      2   20.31 4.1286                High</span></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 183 371.4535      1      2   63.63 4.8129                High</span></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 184 420.3231      1      2   54.40 5.5777                 Low</span></span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 185 361.2225      3      3   65.12 4.6665                High</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 186 332.5052      3      3   76.38 4.5174                High</span></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 187 272.3013      0      3   42.85 4.1662                High</span></span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 188 337.1703      0      3   42.85 4.4284                High</span></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 189 293.3173      1      4   55.40 3.1658                High</span></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 190 327.4267      1      4  108.42 3.3785                High</span></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 191 360.2296      1      4   83.12 3.5851                High</span></span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 192 415.5751      1      5   98.92 5.1112                 Low</span></span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 193 357.4060      2      3   67.01 4.3877                High</span></span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 194 278.7097      2      3   41.13 3.8790                High</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 195 422.4364      3      5  100.02 4.2352                High</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 196 378.4876      1      5   88.00 3.7843                High</span></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 197 431.3125      1      4   54.71 4.9098                High</span></span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 198 265.3917      2      2   41.49 3.4042                High</span></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 199 362.2676      2      4   56.84 3.9056                High</span></span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 200 440.5173      3      7  123.77 3.5500                High</span></span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 201 329.3726      2      5   66.07 2.4152                High</span></span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 202 480.5796      2      2   92.67 7.2172                 Low</span></span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 203 245.3174      1      2   38.33 3.5255                High</span></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 204 358.4355      0      2   24.72 6.4826                 Low</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 205 496.0004      1      2   47.67 7.4397                 Low</span></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 206 417.4299      0      2   48.00 5.0091                 Low</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 207 256.3865      1      2   27.09 4.9299                High</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 208 335.8291      1      5   54.46 2.8947                High</span></span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 209 368.9037      1      4   41.05 4.9191                High</span></span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 210 470.1598      2      4   49.84 6.9694                 Low</span></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 211 393.4829      2      7   88.86 2.4314                High</span></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 212 440.2853      0      5   74.30 2.4449                High</span></span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 213 466.5579      1      8  112.31 2.0966                High</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 214 416.2870      1      4   39.60 4.4058                High</span></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 215 290.2438      1      4   50.70 4.1130                High</span></span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 216 290.2438      1      4   51.81 4.4057                High</span></span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 217 335.3109      0      3   94.35 3.4978                High</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 218 362.4225      1      4   58.64 3.5192                High</span></span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 219 372.4174      2      2   67.37 5.0988                 Low</span></span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 220 373.4054      2      3   76.24 4.0225                High</span></span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 221 442.3078      2      3   57.78 5.7121                 Low</span></span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 222 427.3140      1      5   88.00 2.3543                High</span></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 223 441.3181      1      4   54.71 4.3294                High</span></span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 224 420.6770      2      5   71.09 4.2420                High</span></span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 225 383.6675      1      3   45.48 4.3217                High</span></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 226 420.5050      1      6   66.93 3.8737                High</span></span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 227 412.4846      3      5   86.88 4.7220                High</span></span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 228 382.2433      2      3   57.78 5.3841                 Low</span></span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 229 440.4484      4      6  107.89 4.4248                High</span></span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 230 366.3400      1      4   50.70 5.0847                 Low</span></span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 231 434.4846      1      3   87.92 5.5356                 Low</span></span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 232 380.4378      1      4   69.68 4.7102                High</span></span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 233 357.2446      1      2   34.15 4.9298                High</span></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 234 430.5048      4      4  109.40 5.1926                 Low</span></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 235 441.8562      1      5   87.07 5.0419                 Low</span></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 236 403.4314      2      3   85.47 4.0061                High</span></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 237 307.3697      1      4  101.58 2.0459                High</span></span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 238 456.5075      0      5   68.31 4.3195                High</span></span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 239 382.8634      1      5   88.00 2.2703                High</span></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 240 381.8130      2      5   80.32 2.8968                High</span></span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 241 232.7091      0      2   16.13 3.3039                High</span></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 242 319.3579      1      3   67.05 3.1872                High</span></span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 243 349.5168      1      4  108.42 4.4641                High</span></span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 244 303.7839      0      1   21.70 4.2684                High</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 245 315.8377      0      1   12.47 5.3364                 Low</span></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 246 312.4153      1      3  108.00 4.3189                High</span></span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 247 332.3501      0      2   56.51 5.3178                 Low</span></span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 248 189.2142      1      3   61.03 1.4288                High</span></span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 249 200.2800      1      2   27.09 3.1051                High</span></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 250 318.3235      0      2   56.51 4.8316                High</span></span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 251 348.1807      2      3   62.47 4.8811                High</span></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 252 341.4098      1      5   63.59 5.1999                 Low</span></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 253 293.5307      0      1   35.53 3.1341                High</span></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 254 287.7845      0      1   12.47 4.9084                High</span></span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 255 287.3591      1      3   51.80 4.4471                High</span></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 256 268.1389      1      2   29.10 3.4358                High</span></span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 257 280.1604      1      2   29.10 3.8341                High</span></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 258 201.2648      1      2   29.10 3.0857                High</span></span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 259 279.3370      1      4   44.70 2.6761                High</span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 260 265.3104      1      4   44.70 2.1899                High</span></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 261 320.3890      2      4   59.07 4.3199                High</span></span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 262 326.3952      2      4   49.84 5.3906                 Low</span></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 263 289.3319      3      3   60.94 3.9204                High</span></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 264 273.7180      3      3   60.94 3.6764                High</span></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 265 312.4068      1      3   35.94 3.1606                High</span></span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 266 199.2489      1      2   29.10 2.6950                High</span></span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 267 252.3149      2      3   57.94 2.6862                High</span></span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 268 254.3275      0      2   15.71 3.7398                High</span></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 269 267.3505      1      3   66.05 4.0883                High</span></span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 270 298.7674      1      2   34.15 4.4970                High</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 271 333.5731      2      3   41.13 4.7216                High</span></span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 272 274.3829      1      3   60.58 3.4279                High</span></span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 273 319.4203      1      2   75.80 3.5610                High</span></span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 274 331.4150      0      4   47.57 3.9406                High</span></span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 275 310.4151      1      3   70.23 4.6406                High</span></span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 276 245.2743      1      4   55.40 2.3200                High</span></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 277 298.7674      1      2   34.15 4.5632                High</span></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 278 319.4441      1      3   28.16 4.0719                High</span></span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 279 348.3959      1      5   68.29 3.9967                High</span></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 280 287.3144      1      4   72.28 1.6009                High</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 281 321.4169      1      3   37.39 4.3436                High</span></span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 282 280.3218      2      3   54.38 3.5652                High</span></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 283 336.3852      1      4   60.45 3.5963                High</span></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 284 274.3189      1      4   69.16 4.2202                High</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 285 308.4423      1      2   53.16 6.2690                 Low</span></span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 286 245.2743      1      4   55.40 2.3200                High</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 287 268.3541      0      2   15.71 4.0886                High</span></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 268.3110      0      2   24.94 3.5243                High</span></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 289 278.3059      1      2   55.13 3.2718                High</span></span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 290 345.8272      2      5   66.07 2.8741                High</span></span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 291 275.3085      1      4   55.11 3.2015                High</span></span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 292 359.4682      0      4   47.57 4.7719                High</span></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 293 346.3966      0      5   49.85 3.3648                High</span></span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 294 228.3333      1      2   27.09 4.0175                High</span></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 295 309.4061      0      4   28.07 3.4386                High</span></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 296 323.3466      2      4   86.47 2.5607                High</span></span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 297 368.4751      1      4   31.40 5.0228                 Low</span></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 298 501.3643      3      5   86.88 6.1688                 Low</span></span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 299 448.3646      2      4   49.84 7.3572                 Low</span></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 300 291.3908      1      3   28.16 3.9106                High</span></span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 301 260.3386      2      6   83.24 1.1216                High</span></span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 302 277.7929      1      3   28.16 3.3257                High</span></span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 303 288.3008      0      3   52.08 3.6636                High</span></span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 304 325.5883      2      3   41.13 3.9357                High</span></span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 305 261.4030      2      2   32.26 4.3590                High</span></span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 306 355.4332      1      4   37.39 4.3247                High</span></span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 307 307.4333      1      3   28.16 3.6321                High</span></span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 308 270.3286      1      1   28.68 4.7890                High</span></span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 309 293.4067      1      3   28.16 3.5697                High</span></span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 310 199.2489      1      2   29.10 2.7816                High</span></span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 311 350.0277      2      3   41.13 5.1805                 Low</span></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 312 281.1344      2      2   40.46 4.0663                High</span></span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 313 389.5341      1      4   29.95 4.7640                High</span></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 314 279.3801      1      3   28.16 3.3630                High</span></span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 315 608.7247      1      3   72.86 6.9672                 Low</span></span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 316 324.4175      1      3   45.59 2.6207                High</span></span></code></pre></div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

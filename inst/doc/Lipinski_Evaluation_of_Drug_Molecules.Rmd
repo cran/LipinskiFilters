@@ -1,0 +1,61 @@
+---
+title: "Lipinski Evaluation of Drug Molecules"
+author: "George Oche Ambrose"
+date: "3/9/2024"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Lipinski Evaluation of Drug Molecules}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(LipinskiFilters)
+```
+Set working directory containing co-catenated compounds in SDF format
+
+```{r}
+file<-system.file("extdata", "test.sdf", package = "LipinskiFilters")
+```
+
+
+Read sdf molecules
+
+```{r}
+mols<-load.molecules(file)
+```
+
+
+Computing Molecular Properties
+You can compute molecular properties using the compute_properties function. Here's an example:
+```{r}
+properties <- compute_properties(mols)
+print(properties)
+```
+
+
+Creating Lipinski Plots
+Visualize Lipinski Rule of Five parameters using the create_lipinski_plots function:
+```{r}
+create_lipinski_plots(properties)
+```
+
+Druglikeness evaluation
+
+```{r}
+assess_drug_likeness(properties)
+```
+
+
+Bioavailability prediction
+
+```{r}
+predict_oral_bioavailability(properties)
+```
